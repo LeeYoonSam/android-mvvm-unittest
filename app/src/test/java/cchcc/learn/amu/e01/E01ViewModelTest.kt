@@ -29,6 +29,39 @@ class E01ViewModelTest {
 
         // then
         Assert.assertEquals("2", viewModel.result.value)
+        Assert.assertEquals(true, viewModel.visibleResult.value)
+    }
+
+    @Test
+    fun plusRightEmpty() {
+        // given
+        val givenVal = "1"
+        viewModel.left.value = givenVal
+
+        // when
+        viewModel.plus()
+
+        // then
+        Assert.assertEquals(givenVal, viewModel.left.value)
+        Assert.assertNull(viewModel.right.value)
+        Assert.assertNull(viewModel.result.value)
+        Assert.assertEquals(false, viewModel.visibleResult.value)
+    }
+
+    @Test
+    fun plusLeftEmpty() {
+        // given
+        val givenVal = "1"
+        viewModel.right.value = givenVal
+
+        // when
+        viewModel.plus()
+
+        // then
+        Assert.assertEquals(givenVal, viewModel.right.value)
+        Assert.assertNull(viewModel.left.value)
+        Assert.assertNull(viewModel.result.value)
+        Assert.assertEquals(false, viewModel.visibleResult.value)
     }
 
 
@@ -45,5 +78,6 @@ class E01ViewModelTest {
         Assert.assertEquals("", viewModel.left.value)
         Assert.assertEquals("", viewModel.right.value)
         Assert.assertEquals("", viewModel.result.value)
+        Assert.assertEquals(false, viewModel.visibleResult.value)
     }
 }
