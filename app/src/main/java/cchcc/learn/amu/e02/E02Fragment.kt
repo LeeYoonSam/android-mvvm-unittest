@@ -44,7 +44,7 @@ class E02Fragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
             DataBindingUtil.inflate<FragmentE02Binding>(inflater, R.layout.fragment_e02, container, false).also {
-                it.setLifecycleOwner(this)
+                it.lifecycleOwner = this
                 it.viewModel = viewModel
             }.root
 

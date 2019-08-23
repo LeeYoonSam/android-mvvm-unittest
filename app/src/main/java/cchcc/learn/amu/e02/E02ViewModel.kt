@@ -19,8 +19,8 @@ class E02ViewModel(private val nextBoolean: () -> Boolean) : ViewModel() {
 
     fun applyScore() {
         val amount = when (result.value) {
-            E02ViewModel.TryResult.FAILED -> -1
-            E02ViewModel.TryResult.SUCCESS -> 1
+            TryResult.FAILED -> -1
+            TryResult.SUCCESS -> 1
             else -> throw IllegalStateException("result.value must be one of TryResult. Call tryResult() first.")
         }
 

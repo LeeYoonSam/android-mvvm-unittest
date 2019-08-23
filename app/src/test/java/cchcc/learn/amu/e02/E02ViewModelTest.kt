@@ -11,6 +11,34 @@ class E02ViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private fun justTrue() = true
+    private fun justFalse() = false
+
+    @Test
+    fun failed_tryResult_and_applyScore() {
+        // given
+        // set nextBoolean false
+        val viewModel = E02ViewModel(::justFalse)
+
+        // when
+        viewModel.tryResult()
+
+        // then
+        Assert.assertEquals(E02ViewModel.TryResult.FAILED, viewModel.result.value)
+
+        // when
+        viewModel.applyScore()
+
+        //then
+        Assert.assertEquals(-1, viewModel.score.value)
+
+        // when
+        // called tryResult 2 times
+        viewModel.tryResult()
+        viewModel.applyScore()
+
+        //then
+        Assert.assertEquals(-2, viewModel.score.value)
+    }
 
     @Test
     fun tryResult_and_applyScore() {
@@ -33,6 +61,28 @@ class E02ViewModelTest {
 
         // then
         Assert.assertEquals(1, viewModel.score.value)
+    }
+
+    @Test
+    fun clear() {
+        val viewModel = E02ViewModel(::justTrue)
+
+        // when
+        viewModel.tryResult()
+        viewModel.applyScore()
+
+        viewModel.tryResult()
+        viewModel.applyScore()
+
+        // then
+        Assert.assertEquals(2, viewModel.score.value)
+
+        // when
+        viewModel.clear()
+
+        // then
+        Assert.assertEquals(Unit, viewModel.clearAction.value)
+        Assert.assertEquals(0, viewModel.score.value)
     }
 
 }
