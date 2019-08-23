@@ -5,8 +5,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -15,7 +17,8 @@ class E01aViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    @Test fun result_only_when_two_values_changed() {
+    @Test
+    fun result_only_when_two_values_changed() {
         val viewModel = E01aViewModel()
         val lifecycle = LifecycleRegistry(mockk()).apply {
             handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -28,6 +31,7 @@ class E01aViewModelTest {
         val visibleResultObserver = mockk<(Boolean?) -> Unit>().also {
             every { it.invoke(false) } returns Unit // for initial value
         }
+
         viewModel.result.observe({ lifecycle }) {}
         viewModel.visibleResult.observe({ lifecycle }, visibleResultObserver)
 
@@ -35,6 +39,7 @@ class E01aViewModelTest {
         viewModel.left.value = givenLeft
 
         // then
+        Assert.assertEquals(false, viewModel.visibleResult.value)
         Assert.assertNull(viewModel.result.value)
 
         // when
@@ -43,6 +48,7 @@ class E01aViewModelTest {
 
         // then
         verify { visibleResultObserver.invoke(true) }
+        Assert.assertEquals(true, viewModel.visibleResult.value)
         Assert.assertEquals("2", viewModel.result.value)
     }
 }

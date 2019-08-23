@@ -15,7 +15,7 @@ class E01aActivity : AppCompatActivity() {
         val viewModel = ViewModelProviders.of(this).get(E01aViewModel::class.java)
 
         DataBindingUtil.setContentView<ActivityE01aBinding>(this, R.layout.activity_e01a).let {
-            it.setLifecycleOwner(this)
+            it.lifecycleOwner = this
             it.viewModel = viewModel
         }
     }
